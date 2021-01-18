@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accName: '',
+    token: '',
     isLoginRegister: false,
     loggedIn: false,
     activeTab: 0,
@@ -21,33 +21,24 @@ export default new Vuex.Store({
     SET_LOGIN (state, payload) {
       state.loggedIn = payload
     },
-    SET_ACTIVETAB (state, payload) {
-      state.activeTab = payload
+    SET_SBN (state,payload){
+        state.sbn = payload
     },
-    SET_PRODUCTS (state, payload) {
-      state.products = payload
+    SET_REKSADANA (state,payload){
+        state.reksadana = payload
     },
-    SET_BANNERS (state, payload) {
-      state.banners = payload
+    SET_CONVENTIONALOSF (state,payload){
+        state.conventionalOsf = payload
     },
-    SET_SELECTITEM (state, payload) {
-      state.selectItem = payload
+    SET_CONVENTIONALINVOICE (state,payload){
+        state.conventionalInvoice = payload
     },
-    ADD_NUMBERCART (state, payload) {
-      state.numbercart++
+    SET_PRODUCTIVEINVOICE (state,payload){
+        state.productiveInvoice = payload
     },
-    RESET_NUMBERCART (state, payload) {
-      state.numbercart = 0
+    SET_FINANCE (state,payload){
+        state.finance = payload
     },
-    MINUS_NUMBERCART (state, payload) {
-      state.numbercart--
-    },
-    SET_NUMBERCART (state, payload) {
-      state.numbercart = payload
-    },
-    SET_CHECKOUT (state, payload) {
-      state.checkout = payload
-    }
   },
   actions: {
     login ({ commit, state }, payload) {
@@ -68,97 +59,106 @@ export default new Vuex.Store({
         roles: 'costumer'
       })
     },
-    fetchProducts ({ commit }) {
-      return server.get('/products/list', {
+    fetchReksadana ({ commit }) {
+      return server.get('/reksadana', {
         headers: {
-          token: localStorage.token
+          "Authentication": localStorage.token
         }
       })
         .then(({ data }) => {
-          console.log('products', data.data)
-          commit('SET_PRODUCTS', data.data)
+          console.log('reksadana', data.data)
+          commit('SET_REKSADANA', data.data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
-    fetchCart ({ commit, state }) {
-      return server.get('/cart/list', {
+    fetchSbn ({ commit }) {
+      return server.get('/sbn', {
         headers: {
-          token: localStorage.token
+            "Authentication": localStorage.token
         }
       })
         .then(({ data }) => {
-          console.log('cart', data.data)
-          commit('SET_CARTS', data.data)
+          console.log('sbn', data.data)
+          commit('SET_SBN', data.data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
-    fetchBanners ({ commit, state }) {
-      return server.get('/banner/list', {
+    fetchFinance ({ commit }) {
+      return server.get('/finance', {
         headers: {
-          token: localStorage.token
+          "Authentication": localStorage.token
         }
       })
         .then(({ data }) => {
-          console.log('banners', data.data)
-          const payload = data.data
-          for (let i = 0; i < payload.length; i++) {
-            payload[i].image = payload[i].image_url
-          }
-          commit('SET_BANNERS', payload)
+          console.log('finance', data.data)
+          commit('SET_FINANCE', data.data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
-    loadItem ({ commit, state }, id) {
-      server.get(`/products/${id}`, {
+    fetchConventionalOsf ({ commit }) {
+      server.get(`/conventionalosf`, {
         headers: {
-          token: localStorage.token
+          "Authentication": localStorage.token
         }
       })
         .then(({ data }) => {
-          commit('SET_SELECTITEM', data)
+          console.log('conventional_osf',data.data)
+          commit('SET_CONVENTIONALOSF', data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
-    loadCheckout ({ commit, state }) {
-      server.get('/cart/checkout', {
+    fetchConventionalInvoice ({ commit }) {
+      server.get('/conventionalinvoice', {
         headers: {
-          token: localStorage.token
+          "Authentication": localStorage.token
         }
       })
         .then(({ data }) => {
-          const payload = data.data
-          commit('SET_NUMBERCART', payload.length)
-          commit('SET_CHECKOUT', payload)
+          console.log('Conventional_invoice',data.data)
+          commit('SET_CONVENTIONALINVOICE', data.data)
+         
         })
         .catch(err => {
           console.log(err.response.data.error)
         })
     },
-    calculateNumberCart ({ commit, state }) {
-      console.log('carts', state.carts)
-      commit('SET_NUMBERCART', state.carts.length)
-    }
+    fetchProductiveInvoice ({ commit }) {
+        server.get('/productiveinvoice', {
+          headers: {
+            "Authentication": localStorage.token
+          }
+        })
+          .then(({ data }) => {
+            console.log('productive_invoice',data.data)
+            commit('SET_PRODUCTIVEINVOICE', data.data)
+           
+          })
+          .catch(err => {
+            console.log(err.response.data.error)
+          })
+      },
   },
   modules: {
   },
   getters: {
     loggedIn: state => state.loggedIn,
     isLoginRegister: state => state.isLoginRegister,
+    token: state=> state.token,
     activeTab: state => state.activeTab,
-    products: state => state.products,
-    carts: state => state.carts,
-    banners: state => state.banners,
-    selectItem: state => state.selectItem,
-    numbercart: state => state.numbercart,
-    accName: state => state.accName,
-    checkout: state => state.checkout
+    reksadana: state => state.reksadana,
+    sbn: state => state.sbn,
+    finance: state => state.finance,
+    conventionalOsf: state => state.conventionalOsf,
+    conventionalInvoice: state => state.conventionalInvoice,
+    productiveInvoice: state => state.productiveInvoice,
+    
   }
 })
