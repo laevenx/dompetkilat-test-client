@@ -39,17 +39,23 @@ export default new Vuex.Store({
     SET_FINANCE (state,payload){
         state.finance = payload
     },
+    SET_TOKEN (state,payload){
+      state.token = payload
+    }
   },
   actions: {
-    login ({ commit, state }, payload) {
+    login ({ commit }, payload) {
       console.log(payload)
       return server.post('/login', {
         email: payload.email,
         password: payload.password
 
       })
+        .then(({data}) => {
+          commit('SET_TOKEN', data.data)
+        })
     },
-    register ({ commit, state }, payload) {
+    register ( payload) {
       console.log(payload)
       return server.post('/register', {
         first_name: payload.first_name,

@@ -12,8 +12,10 @@
     "buefy": "^0.9.4",
     "buefy-helper-json": "^1.0.3",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
+    "vue-table-component": "^1.9.2",
     "vuex": "^3.6.0"
   },
   "devDependencies": {
