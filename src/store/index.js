@@ -86,11 +86,7 @@ export default new Vuex.Store({
       })
     },
     fetchReksadana ({ commit }) {
-      return server.get('/reksadana', {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      return server.get('/reksadana')
         .then(({ data }) => {
           console.log('reksadana', data)
           commit('SET_REKSADANA', data)
@@ -100,11 +96,7 @@ export default new Vuex.Store({
         })
     },
     fetchSbn ({ commit }) {
-      return server.get('/sbn', {
-        headers: {
-            "Authentication": localStorage.token
-        }
-      })
+      return server.get('/sbn')
         .then(({ data }) => {
           console.log('sbn', data)
           commit('SET_SBN', data)
@@ -114,11 +106,7 @@ export default new Vuex.Store({
         })
     },
     fetchFinance ({ commit }) {
-      return server.get('/finance', {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      return server.get('/finance')
         .then(({ data }) => {
           console.log('finance', data)
           commit('SET_FINANCE', data)
@@ -128,11 +116,7 @@ export default new Vuex.Store({
         })
     },
     fetchConventionalOsf ({ commit }) {
-      server.get(`/conventionalosf`, {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      server.get(`/conventionalosf`)
         .then(({ data }) => {
           console.log('conventional_osf',data)
           commit('SET_CONVENTIONALOSF', data)
@@ -142,11 +126,7 @@ export default new Vuex.Store({
         })
     },
     fetchConventionalInvoice ({ commit }) {
-      server.get('/conventionalinvoice', {
-        headers: {
-          "Authentication":localStorage.token
-        }
-      })
+      server.get('/conventionalinvoice')
         .then(({ data }) => {
           console.log('Conventional_invoice',data)
           commit('SET_CONVENTIONALINVOICE', data)
@@ -157,11 +137,7 @@ export default new Vuex.Store({
         })
     },
     fetchProductiveInvoice ({ commit }) {
-        server.get('/productiveinvoice', {
-          headers: {
-            "Authorization": localStorage.token
-          }
-        })
+        server.get('/productiveinvoice')
           .then(({ data }) => {
             console.log('productive_invoice',data)
             commit('SET_PRODUCTIVEINVOICE', data)

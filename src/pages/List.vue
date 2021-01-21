@@ -6,113 +6,347 @@
       <input class="effect-1" type="text" placeholder="Search" />
 
       <select v-model="filter">
-        <option v-for="option in options" v-bind:key="option" v-bind:value="option.value">
+        <option
+          v-for="option in options"
+          v-bind:key="option"
+          v-bind:value="option.value"
+        >
           {{ option.text }}
         </option>
       </select>
     </div>
 
-    <b-table :data="data" :columns="columns"></b-table>
+    <b-table :data="rows" :columns="columns"></b-table>
   </div>
 </template>
 <script>
 export default {
   name: "List",
-  props: {},
   data() {
-    return {
-      filter: "",
-      options: [
-        { text: "ALL", value: "ALL" },
-        { text: "A", value: "A" },
-        { text: "B", value: "B" },
-        { text: "B+", value: "B+" },
-      ],
-      data: [
-        {
-          id: 1,
-          first_name: "Jesse",
-          last_name: "Simmons",
-          date: "2016-10-15 13:43:27",
-          gender: "Male",
-        },
-        {
-          id: 2,
-          first_name: "John",
-          last_name: "Jacobs",
-          date: "2016-12-15 06:00:53",
-          gender: "Male",
-        },
-        {
-          id: 3,
-          first_name: "Tina",
-          last_name: "Gilbert",
-          date: "2016-04-26 06:26:28",
-          gender: "Female",
-        },
-        {
-          id: 4,
-          first_name: "Clarence",
-          last_name: "Flores",
-          date: "2016-04-10 10:28:46",
-          gender: "Male",
-        },
-        {
-          id: 5,
-          first_name: "Anne",
-          last_name: "Lee",
-          date: "2016-12-06 14:38:38",
-          gender: "Female",
-        },
-      ],
-      columns: [
-        {
-          field: "id",
-          label: "ID",
-          width: "40",
-          numeric: true,
-        },
-        {
-          field: "first_name",
-          label: "First Name",
-        },
-        {
-          field: "last_name",
-          label: "Last Name",
-        },
-        {
-          field: "date",
-          label: "Date",
-          centered: true,
-        },
-        {
-          field: "gender",
-          label: "Gender",
-        },
-      ],
-    };
+    if (this.$route.params.type.toLowerCase() == "conventionalosf") {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "A", value: "A" },
+          { text: "B", value: "B" },
+          { text: "B+", value: "B+" },
+        ],
+        rows: this.$store.state.conventionalOsf,
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "name",
+            label: "Name",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "amount",
+            label: "Amount",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "tenor",
+            label: "Tenor",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "grade",
+            label: "Grade",
+            centered: true,
+            numeric: true,
+          },
+           {
+            field: "rate",
+            label: "Rate",
+            centered: true,
+            numeric: true,
+          },
+        ],
+      };
+    } 
+     else if (this.$route.params.type.toLowerCase() == "conventionalinvoice") {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "A", value: "A" },
+          { text: "B", value: "B" },
+          { text: "B+", value: "B+" },
+        ],
+        rows: this.$store.state.conventionalInvoice,
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "name",
+            label: "Name",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "amount",
+            label: "Amount",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "tenor",
+            label: "Tenor",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "grade",
+            label: "Grade",
+            centered: true,
+            numeric: true,
+          },
+           {
+            field: "rate",
+            label: "Rate",
+            centered: true,
+            numeric: true,
+          },
+        ],
+      };
+    } else if (this.$route.params.type.toLowerCase() == "productiveinvoice") {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "A", value: "A" },
+          { text: "B", value: "B" },
+          { text: "B+", value: "B+" },
+        ],
+        rows: this.$store.state.productiveinvoice,
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "name",
+            label: "Name",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "amount",
+            label: "Amount",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "grade",
+            label: "Grade",
+            centered: true,
+            numeric: true,
+          },
+           {
+            field: "rate",
+            label: "Rate",
+            centered: true,
+            numeric: true,
+          },
+        ],
+      };
+    }
+    else if (this.$route.params.type.toLowerCase() == "reksadana") {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "Negative", value: "<0" },
+          { text: "Positive", value: ">=0" },
+          
+        ],
+        rows: this.$store.state.reksadana,
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "name",
+            label: "Name",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "amount",
+            label: "Amount",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "return",
+            label: "Return",
+            centered: true,
+            numeric: true,
+          },
+          
+        ],
+      };
+    }
+    else if (this.$route.params.type.toLowerCase() == "sbn") {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "SBR", value: "SBR" },
+          { text: "ST", value: "ST" },
+          
+        ],
+        rows: this.$store.state.sbn,
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "name",
+            label: "Name",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "amount",
+            label: "Amount",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "tenor",
+            label: "Tenor",
+            centered: true,
+            numeric: true,
+          },
+          {
+            field: "rate",
+            label: "Rate",
+            centered: true,
+            numeric: true,
+          },
+           {
+            field: "type",
+            label: "Type",
+            centered: true,
+            
+          },
+        ],
+      };
+    }
+    else {
+      return {
+        filter: "",
+        options: [
+          { text: "ALL", value: "ALL" },
+          { text: "A", value: "A" },
+          { text: "B", value: "B" },
+          { text: "B+", value: "B+" },
+        ],
+        rows: [
+          {
+            id: 1,
+            first_name: "Jesse",
+            last_name: "Simmons",
+            date: "2016-10-15 13:43:27",
+            gender: "Male",
+          },
+          {
+            id: 2,
+            first_name: "John",
+            last_name: "Jacobs",
+            date: "2016-12-15 06:00:53",
+            gender: "Male",
+          },
+          {
+            id: 3,
+            first_name: "Tina",
+            last_name: "Gilbert",
+            date: "2016-04-26 06:26:28",
+            gender: "Female",
+          },
+          {
+            id: 4,
+            first_name: "Clarence",
+            last_name: "Flores",
+            date: "2016-04-10 10:28:46",
+            gender: "Male",
+          },
+          {
+            id: 5,
+            first_name: "Anne",
+            last_name: "Lee",
+            date: "2016-12-06 14:38:38",
+            gender: "Female",
+          },
+        ],
+        columns: [
+          {
+            field: "id",
+            label: "ID",
+            width: "40",
+            numeric: true,
+          },
+          {
+            field: "first_name",
+            label: "First Name",
+          },
+          {
+            field: "last_name",
+            label: "Last Name",
+          },
+          {
+            field: "date",
+            label: "Date",
+            centered: true,
+          },
+          {
+            field: "gender",
+            label: "Gender",
+          },
+        ],
+      };
+    }
   },
   components: {},
-  computed: {},
-  // methods: {
-  //   headerSet(index) {
-  //     if (index == 1) {
-  //     } else if (index == 2) {
-  //     } else if (index == 3) {
-  //     } else if (index == 4) {
-  //     }
-  //   },
-  // },
+  computed: {
+    conventionalosf(){
+      return  this.$store.state.conventionalOsf
+    }
+  },
   created() {
-    if (this.props.option == "ConventionalOsf") {
+    if (this.$route.params.type.toLowerCase() == "conventionalosf") {
       this.$store.dispatch("fetchConventionalOsf");
-    } else if (this.props.option == "ConventionalInvoice") {
+      
+      console.log(this.rows)
+    } else if (this.$route.params.type.toLowerCase() == "conventionalinvoice") {
       this.$store.dispatch("fetchConventionalInvoice");
-    } else if (this.props.option == "ProductiveInvoice") {
+    } else if (this.$route.params.type.toLowerCase() == "productiveinvoice") {
       this.$store.dispatch("fetchProductiveInvoice");
-    } else if (this.props.option == "Reksadana") {
+    } else if (this.$route.params.type.toLowerCase() == "reksadana") {
       this.$store.dispatch("fetchReksadana");
-    } else if (this.props.option == "sbn") {
+    } else if (this.$route.params.type.toLowerCase() == "sbn") {
       this.$store.dispatch("fetchSbn");
     }
   },

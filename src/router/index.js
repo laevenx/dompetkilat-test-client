@@ -27,7 +27,7 @@ const routes = [
     },
   },
   {
-    path: "/list",
+    path: "/list/:type",
     name: "List",
     component: List,
     meta: {

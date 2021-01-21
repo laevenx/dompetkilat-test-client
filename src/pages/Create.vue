@@ -211,7 +211,6 @@ export default {
             grade: this.grade,
             rate: Number(this.rate),
           };
-          // this.$store.dispatch("create", payload);
           break;
 
         case "ConventionalInvoice":
@@ -223,7 +222,6 @@ export default {
             grade: this.grade,
             rate: this.rate,
           };
-          // this.$store.dispatch("create", payload);
           break;
 
         case "ProductiveInvoice":
@@ -234,7 +232,6 @@ export default {
             grade: this.grade,
             rate: this.rate,
           };
-          // this.$store.dispatch("create", payload);
           break;
 
         case "Reksadana":
@@ -244,7 +241,6 @@ export default {
             amount: this.amount,
             return: this.returnReksa,
           };
-          // this.$store.dispatch("create", payload);
           break;
 
         case "sbn":
@@ -256,7 +252,6 @@ export default {
             rate: this.rate,
             type: this.type,
           };
-          // this.$store.dispatch("create", payload);
           break;
       }
       this.$store.commit('SET_CREATEDATA', payload)

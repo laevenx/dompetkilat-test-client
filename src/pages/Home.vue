@@ -1,50 +1,79 @@
 <template>
-    <div>
-        <h1>Home</h1>
-        <div v-for="data in financeData " v-bind:key="data">
-            <p>{{data.name}}</p>
-            <p>iorem ipsum</p>
+  <div class="columns is-mobile">
+    <div class="column is-three-fifths is-offset-one-fifth">
+      <h1>Home</h1>
+      
+      <div class="card" v-for="data in financeData" v-bind:key="data">
+        <div class="card-content">
+          <div class="columns">
+            <div class="column is-one-fifth">
+              <img src="download.png" width="60" height="100" />
+            </div>
+            <div class="column">
+              <div class="columns">
+                <div class="column">
+                  <p class="title" style="text-align:left;">{{data.name}}</p>
+                </div>
+                <div class="column">
+                  <p style="text-align:right;">{{ data.count}}</p>
+                </div>
+              </div>
+
+              <div class="content">
+                <p style="text-align:left;">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                  ornare magna eros, eu pellentesque tortor vestibulum ut.
+                  Maecenas non massa sem. Etiam finibus odio quis feugiat
+                  facilisis.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "Home",
-    data(){
-        return {
-            financeData : this.financelist
-        }
+  name: "Home",
+  data(){
+      return {
+          financeData : this.$store.state.finance
+      }
+  },
+  components: {},
+  
+  beforeMount() {
+    this.$store.dispatch("fetchReksadana");
+    this.$store.dispatch("fetchSbn");
+    this.$store.dispatch("fetchFinance");
+    this.$store.dispatch("fetchConventionalOsf");
+    this.$store.dispatch("fetchProductiveInvoice");
+  },
+   computed: {
+    reksadanaLength() {
+      return this.$store.state.reksadana.length;
     },
-    components: {
-
+    conventionalOsfLength() {
+        
+      return this.$store.state.conventionalOsf.length;
     },
-    computed:{
-        reksadanaLength(){
-            return this.$store.reksadana.length
-        },
-        conventionalOsfLength(){
-            return this.$store.conventionalOsf.length
-        },
-        conventionalInvoiceLength(){
-            return this.$store.conventionalInvoice.length
-        },
-        productiveInvoiceLength(){
-            return this.$store.productiveInvoice.length
-        },
-        sbnLength(){
-            return this.$store.sbn.length
-        },
-        financelist(){
-            return this.$store.finance
-        }
+    conventionalInvoiceLength() {
+      return this.$store.state.conventionalInvoice.length;
     },
-    created(){
-        this.$store.dispatch("fetchReksadana")
-        this.$store.dispatch("fetchSbn")
-        this.$store.dispatch("fetchFinance")
-        this.$store.dispatch("fetchConventionalOsf")
-        this.$store.dispatch("fetchProductiveInvoice")
-    }
-}
+    productiveInvoiceLength() {
+      return this.$store.state.productiveInvoice.length;
+    },
+    sbnLength() {
+      return this.$store.state.sbn.length;
+    },
+    financelist() {
+      
+     
+      return this.$store.state.finance;
+    },
+  },
+};
 </script>
