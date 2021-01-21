@@ -1,11 +1,277 @@
 <template>
-    <div></div>
+  <div class="column is-half is-offset-one-quarter">
+    <div v-if="option == 'ConventionalOsf'">
+      <!-- <input v-model="name" type="text" />
+      <input v-model="amount" type="text" />
+      <input v-model="tenor" type="text" />
+      <input  v-model="grade" type="text" />
+      <input  v-model="rate" type="text" /> -->
+      <section>
+        <b-field>
+          <b-input v-model="name" placeholder="Name" type="text"></b-input>
+        </b-field>
+
+        <b-field>
+          <b-input
+            v-model="amount"
+            placeholder="Amount"
+            type="number"
+           
+          >
+          </b-input>
+        </b-field>
+
+        <b-field>
+          <b-input
+            v-model="tenor"
+            placeholder="Tenor"
+            type="number"
+            required
+            validation-message="Only lowercase is allowed"
+           
+          >
+          </b-input>
+        </b-field>
+
+        <b-field>
+          <b-input v-model="grade" placeholder="Grade" type="text"></b-input>
+        </b-field>
+
+        <b-field>
+          <b-input
+            v-model="rate"
+            type="number"
+            placeholder="Rate"
+          >
+          </b-input>
+        </b-field>
+      </section>
+    </div>
+    <select v-model="option">
+      <option>Type Select</option>
+      <option
+        v-for="data in options"
+        v-bind:key="data"
+        v-bind:value="data.value"
+      >
+        {{ data.text }}
+      </option>
+    </select>
+
+    <div v-if="option == 'ConventionalInvoice'">
+      <b-field>
+          <b-input v-model="name" placeholder="Name" type="text"></b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="amount"
+            placeholder="Amount"
+            type="number"
+           
+          >
+          </b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="tenor"
+            placeholder="Tenor"
+            type="number"
+            required
+            validation-message="Only lowercase is allowed"
+           
+          >
+          </b-input>
+        </b-field>
+      <input v-model="grade" type="text" />
+     <b-field>
+          <b-input
+            v-model="rate"
+            type="number"
+            placeholder="Rate"
+          >
+          </b-input>
+        </b-field>
+    </div>
+    <div v-if="option == 'ProductiveInvoice'">
+     <b-field>
+          <b-input v-model="name" placeholder="Name" type="text"></b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="amount"
+            placeholder="Amount"
+            type="number"
+           
+          >
+          </b-input>
+        </b-field>
+       <b-field>
+          <b-input
+            v-model="grade"
+            type="number"
+            placeholder="grade"
+          >
+          </b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="rate"
+            type="number"
+            placeholder="Rate"
+          >
+          </b-input>
+        </b-field>
+    </div>
+    <div v-if="option == 'Reksadana'">
+      <b-field>
+          <b-input v-model="name" placeholder="Name" type="text"></b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="amount"
+            placeholder="Amount"
+            type="number"
+           
+          >
+          </b-input>
+        </b-field>
+      <input v-model="returnReksa" type="text" />
+    </div>
+    <div v-if="option == 'sbn'">
+      <b-field>
+          <b-input v-model="name" placeholder="Name" type="text"></b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="amount"
+            placeholder="Amount"
+            type="number"
+           
+          >
+          </b-input>
+        </b-field>
+      <b-field>
+          <b-input
+            v-model="tenor"
+            placeholder="Tenor"
+            type="number"
+            required
+            validation-message="Only lowercase is allowed"
+           
+          >
+          </b-input>
+        </b-field>
+      <b-field>
+          <b-input v-model="type" placeholder="type" type="text"></b-input>
+        </b-field>
+    <b-field>
+          <b-input
+            v-model="rate"
+            type="number"
+            placeholder="Rate"
+          >
+          </b-input>
+        </b-field>
+    </div>
+    <b-button @click="submit">Create</b-button>
+  </div>
 </template>
 <script>
 export default {
-    name: "Create",
-    components: {
-        
-    }
-}
+  name: "Create",
+  data() {
+    return {
+      option: "ConventionalOsf",
+      name: "",
+      amount: 0,
+      rate: 0,
+      grade: "",
+      tenor: 0,
+      type: "",
+      returnReksa: 0,
+      options: [
+        { text: "ConventionalOsf", value: "ConventionalOsf" },
+        { text: "ConventionalInvoice", value: "ConventionalInvoice" },
+        { text: "ProductiveInvoice", value: "ProductiveInvoice" },
+        { text: "Reksadana", value: "Reksadana" },
+        { text: "Sbn", value: "Sbn" },
+      ],
+    };
+  },
+  methods: {
+    submit() {
+      let payload = {};
+      switch (this.option) {
+        case "ConventionalOsf":
+          payload = {
+            option: "ConventionalOsf",
+            name: this.name,
+            amount: Number(this.amount),
+            tenor: Number(this.tenor),
+            grade: this.grade,
+            rate: Number(this.rate),
+          };
+          // this.$store.dispatch("create", payload);
+          break;
+
+        case "ConventionalInvoice":
+          payload = {
+            option: "ConventionalInvoice",
+            name: this.name,
+            amount: this.amount,
+            tenor: this.tenor,
+            grade: this.grade,
+            rate: this.rate,
+          };
+          // this.$store.dispatch("create", payload);
+          break;
+
+        case "ProductiveInvoice":
+          payload = {
+            option: "ProductiveInvoice",
+            name: this.name,
+            amount: this.amount,
+            grade: this.grade,
+            rate: this.rate,
+          };
+          // this.$store.dispatch("create", payload);
+          break;
+
+        case "Reksadana":
+          payload = {
+            option: "Reksadana",
+            name: this.name,
+            amount: this.amount,
+            return: this.returnReksa,
+          };
+          // this.$store.dispatch("create", payload);
+          break;
+
+        case "sbn":
+          payload = {
+            option: "sbn",
+            name: this.name,
+            amount: this.amount,
+            tenor: this.tenor,
+            rate: this.rate,
+            type: this.type,
+          };
+          // this.$store.dispatch("create", payload);
+          break;
+      }
+      this.$store.commit('SET_CREATEDATA', payload)
+      this.$store.dispatch("create");
+    },
+    changeOption(input) {
+      this.name = "";
+      this.amount = 0;
+      this.rate = 0;
+      this.tenor = 0;
+      this.grade = "";
+      this.type = "";
+      this.option = input;
+    },
+  },
+  components: {},
+};
 </script>

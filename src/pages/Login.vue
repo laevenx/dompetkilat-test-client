@@ -1,26 +1,17 @@
 <template>
    <div class="wrapper fadeInDown">
   <div id="formContent">
-    <!-- Tabs Titles -->
+    
     <h2 class="active"> Sign In </h2>
-    <!-- <h2 class="inactive underlineHover">Sign Up </h2> -->
-
-    <!-- Icon
-    <div class="fadeIn first">
-      <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
-    </div> -->
-
-    <!-- Login Form -->
+    
+    
     <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+      <input v-model="email" type="text" id="login" class="fadeIn second" name="email" placeholder="email">
+      <input v-model="password" type="password" id="password" class="fadeIn third" name="password" placeholder="password">
       <input type="submit" @click.prevent="login"  class="fadeIn fourth" value="Log In">
     </form>
 
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
-    </div>
+ 
 
   </div>
 </div>
@@ -135,7 +126,7 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 
-input[type=button], input[type=submit], input[type=reset]  {
+input[type=button], input[type=submit], input[type=reset],input[type=password]  {
   background-color: #56baed;
   border: none;
   color: white;
@@ -157,11 +148,11 @@ input[type=button], input[type=submit], input[type=reset]  {
   transition: all 0.3s ease-in-out;
 }
 
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover,input[type=password]:hover   {
   background-color: #39ace7;
 }
 
-input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active ,input[type=password]:active {
   -moz-transform: scale(0.95);
   -webkit-transform: scale(0.95);
   -o-transform: scale(0.95);
@@ -169,7 +160,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text] {
+input[type=text],input[type=password] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -190,7 +181,7 @@ input[type=text] {
   border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus {
+input[type=text]:focus, input[type=password]:focus  {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }
@@ -199,6 +190,9 @@ input[type=text]:placeholder {
   color: #cccccc;
 }
 
+input[type=password]:placeholder {
+  color: black;
+}
 
 
 /* ANIMATIONS */

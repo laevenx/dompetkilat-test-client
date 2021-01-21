@@ -13,7 +13,13 @@ export default {
   name: 'App',
   components: {
     Header
-  }
+  },
+  watch: {
+      '$route' (to) {
+        document.title = to.meta.title || 'Your Website'
+      }
+    },
+
 }
 </script>
 
