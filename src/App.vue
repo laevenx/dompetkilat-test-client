@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+   
     <Header />
     <router-view/>
   </div>
@@ -13,7 +13,13 @@ export default {
   name: 'App',
   components: {
     Header
-  }
+  },
+  watch: {
+      '$route' (to) {
+        document.title = to.meta.title || 'Your Website'
+      }
+    },
+
 }
 </script>
 

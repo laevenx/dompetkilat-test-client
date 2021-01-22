@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import server from '../api'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,9 @@ export default new Vuex.Store({
     conventionalInvoice: [],
     productiveInvoice: [],
     sbn: [],
-    finance: []
+    finance: [],
+    registerData: {},
+    createData: {}
   },
   mutations: {
     SET_LOGIN (state, payload) {
@@ -39,76 +42,83 @@ export default new Vuex.Store({
     SET_FINANCE (state,payload){
         state.finance = payload
     },
+    SET_TOKEN (state,payload){
+      state.token = payload
+    },
+    SET_REGISTERDATA (state,payload){
+      state.registerData = payload
+    },
+    SET_CREATEDATA(state,payload){
+      state.createData = payload
+    }
   },
   actions: {
-    login ({ commit, state }, payload) {
+    login ({ commit }, payload) {
       console.log(payload)
       return server.post('/login', {
         email: payload.email,
         password: payload.password
 
       })
+        .then(({data}) => {
+          // console.log(data)
+          commit('SET_TOKEN', data)
+          localStorage.setItem('token', data)
+
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
     },
-    register ({ commit, state }, payload) {
-      console.log(payload)
+    register () {
+      let payload = this.state.registerData
       return server.post('/register', {
-        first_name: payload.first_name,
-        last_name: payload.last_name,
+        username: payload.username,
         email: payload.email,
-        password: payload.password,
-        roles: 'costumer'
+        password: payload.password
+      })
+      .then(() => {
+        // console.log(data)
+        router.push('/login')
+      })
+      .catch(err => {
+        console.log(err.response)
       })
     },
     fetchReksadana ({ commit }) {
-      return server.get('/reksadana', {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      return server.get('/reksadana')
         .then(({ data }) => {
-          console.log('reksadana', data.data)
-          commit('SET_REKSADANA', data.data)
+          console.log('reksadana', data)
+          commit('SET_REKSADANA', data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
     fetchSbn ({ commit }) {
-      return server.get('/sbn', {
-        headers: {
-            "Authentication": localStorage.token
-        }
-      })
+      return server.get('/sbn')
         .then(({ data }) => {
-          console.log('sbn', data.data)
-          commit('SET_SBN', data.data)
+          console.log('sbn', data)
+          commit('SET_SBN', data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
     fetchFinance ({ commit }) {
-      return server.get('/finance', {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      return server.get('/finance')
         .then(({ data }) => {
-          console.log('finance', data.data)
-          commit('SET_FINANCE', data.data)
+          console.log('finance', data)
+          commit('SET_FINANCE', data)
         })
         .catch(err => {
           console.log(err.response)
         })
     },
     fetchConventionalOsf ({ commit }) {
-      server.get(`/conventionalosf`, {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      server.get(`/conventionalosf`)
         .then(({ data }) => {
-          console.log('conventional_osf',data.data)
+          console.log('conventional_osf',data)
           commit('SET_CONVENTIONALOSF', data)
         })
         .catch(err => {
@@ -116,14 +126,10 @@ export default new Vuex.Store({
         })
     },
     fetchConventionalInvoice ({ commit }) {
-      server.get('/conventionalinvoice', {
-        headers: {
-          "Authentication": localStorage.token
-        }
-      })
+      server.get('/conventionalinvoice')
         .then(({ data }) => {
-          console.log('Conventional_invoice',data.data)
-          commit('SET_CONVENTIONALINVOICE', data.data)
+          console.log('Conventional_invoice',data)
+          commit('SET_CONVENTIONALINVOICE', data)
          
         })
         .catch(err => {
@@ -131,20 +137,64 @@ export default new Vuex.Store({
         })
     },
     fetchProductiveInvoice ({ commit }) {
-        server.get('/productiveinvoice', {
-          headers: {
-            "Authentication": localStorage.token
-          }
-        })
+        server.get('/productiveinvoice')
           .then(({ data }) => {
-            console.log('productive_invoice',data.data)
-            commit('SET_PRODUCTIVEINVOICE', data.data)
+            console.log('productive_invoice',data)
+            commit('SET_PRODUCTIVEINVOICE', data)
            
           })
           .catch(err => {
             console.log(err.response.data.error)
           })
       },
+    create(){
+      let payload = this.state.createData
+      let data = {}
+      if (payload.option == "Reksadana"){
+        data = {
+          name : payload.name,
+          amount : payload.amount,
+          return : payload.returnReksa
+        }
+      }else if (payload.option == "Sbn"){
+        data = {
+          name: payload.name,
+          amount: payload.amount,
+          tenor: payload.tenor,
+          rate: payload.rate,
+          type: payload.type
+        }
+      }else if (payload.option == "ProductiveInvoice"){
+        data = {
+          name : payload.name,
+          amount : payload.amount,
+          grade: payload.grade,
+          rate : payload.rate
+        }
+
+      }else if (payload.option == "ConventionalOsf" || payload.option == "Finance"){
+        data = {
+          name : payload.name,
+          amount : payload.amount,
+          tenor : payload.tenor,
+          grade : payload.grade,
+          rate : payload.rate
+        }
+      }
+      // payload.option = payload.option.toLowerCase()
+      server.post(`/${payload.option.toLowerCase()}`,data,{
+        headers : {
+          "Authorization": localStorage.token
+        }
+      })
+        .then(() => {
+          router.push('/')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+
+    }
   },
   modules: {
   },
@@ -159,6 +209,7 @@ export default new Vuex.Store({
     conventionalOsf: state => state.conventionalOsf,
     conventionalInvoice: state => state.conventionalInvoice,
     productiveInvoice: state => state.productiveInvoice,
-    
+    createData: state => state.createData,
+    registerData: state => state.registerData
   }
 })

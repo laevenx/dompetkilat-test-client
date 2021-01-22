@@ -12,6 +12,7 @@
     "buefy": "^0.9.4",
     "buefy-helper-json": "^1.0.3",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
     "vuex": "^3.6.0"
@@ -23,6 +24,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^4.3.3",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
