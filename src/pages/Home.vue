@@ -1,7 +1,7 @@
 <template>
   <div class="columns is-mobile">
     <div class="column is-three-fifths is-offset-one-fifth">
-      <h1>Home</h1>
+      <h1 style="text-align: left; font-size: 150%;">Home</h1>
       
       <div class="card" v-for="data in financeData" v-bind:key="data">
         <div class="card-content">
@@ -51,6 +51,7 @@ export default {
     this.$store.dispatch("fetchFinance");
     this.$store.dispatch("fetchConventionalOsf");
     this.$store.dispatch("fetchProductiveInvoice");
+    console.log('finance:',this.$store.state.finance)
   },
    computed: {
     reksadanaLength() {
