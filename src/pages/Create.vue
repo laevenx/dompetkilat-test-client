@@ -1,11 +1,7 @@
 <template>
   <div class="column is-half is-offset-one-quarter">
     <div v-if="option == 'ConventionalOsf'">
-      <!-- <input v-model="name" type="text" />
-      <input v-model="amount" type="text" />
-      <input v-model="tenor" type="text" />
-      <input  v-model="grade" type="text" />
-      <input  v-model="rate" type="text" /> -->
+     
       <section>
         <b-field>
           <b-input v-model="name" placeholder="Name" type="text"></b-input>

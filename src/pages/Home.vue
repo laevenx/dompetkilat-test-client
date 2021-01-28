@@ -3,13 +3,13 @@
     <div class="column is-three-fifths is-offset-one-fifth">
       <h1 style="text-align: left; font-size: 150%;">Home</h1>
       
-      <div class="card" v-for="data in financeData" v-bind:key="data">
+      <div class="card" v-for="data in financelist" v-bind:key="data">
         <div class="card-content">
           <div class="columns">
             <div class="column is-one-fifth">
               <img src="download.png" width="60" height="100" />
             </div>
-            <div class="column">
+            <div class="column" @click="list(data.name)">
               <div class="columns">
                 <div class="column">
                   <p class="title" style="text-align:left;">{{data.name}}</p>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import router from '../router/index'
 export default {
   name: "Home",
   data(){
@@ -44,7 +45,11 @@ export default {
       }
   },
   components: {},
-  
+  methods: {
+    list(name){
+        router.push(`/list/${name}`)
+    }
+  },
   beforeMount() {
     this.$store.dispatch("fetchReksadana");
     this.$store.dispatch("fetchSbn");
