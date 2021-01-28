@@ -1,6 +1,6 @@
 <template>
   <div class="column is-10 is-offset-1">
-    <h1>Lists</h1>
+    <h1 style="text-align: left; font-size: 150%;">List</h1>
 
     <div class="column is-6 is-offset-3">
       <input class="effect-1" type="text" placeholder="Search" />
