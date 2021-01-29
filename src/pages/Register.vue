@@ -16,6 +16,7 @@
 </div>
 </template>
 <script>
+import router from '../router'
 export default {
     name: "Register",
     data(){
@@ -36,7 +37,10 @@ export default {
       }
     },
     created(){
-        
+        if(localStorage.getItem('token')){
+          router.push('/')
+          
+        }
     }
 }
 </script>

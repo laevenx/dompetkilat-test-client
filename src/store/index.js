@@ -64,7 +64,7 @@ export default new Vuex.Store({
           // console.log(data)
           commit('SET_TOKEN', data)
           localStorage.setItem('token', data)
-
+          router.push('/')
         })
         .catch(err => {
           console.log(err.response)
