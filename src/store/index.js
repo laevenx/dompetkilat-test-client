@@ -172,7 +172,7 @@ export default new Vuex.Store({
           rate : payload.rate
         }
 
-      }else if (payload.option == "ConventionalOsf" || payload.option == "Finance"){
+      }else if (payload.option == "ConventionalOsf" || payload.option == "ConventionalInvoice"){
         data = {
           name : payload.name,
           amount : payload.amount,

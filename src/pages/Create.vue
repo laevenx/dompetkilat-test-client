@@ -1,5 +1,15 @@
 <template>
   <div class="column is-half is-offset-one-quarter">
+     <select v-model="option">
+      <option>Type Select</option>
+      <option
+        v-for="data in options"
+        v-bind:key="data"
+        v-bind:value="data.value"
+      >
+        {{ data.text }}
+      </option>
+    </select>
     <div v-if="option == 'ConventionalOsf'">
      
       <section>
@@ -43,16 +53,7 @@
         </b-field>
       </section>
     </div>
-    <select v-model="option">
-      <option>Type Select</option>
-      <option
-        v-for="data in options"
-        v-bind:key="data"
-        v-bind:value="data.value"
-      >
-        {{ data.text }}
-      </option>
-    </select>
+   
 
     <div v-if="option == 'ConventionalInvoice'">
       <b-field>
@@ -78,7 +79,7 @@
           >
           </b-input>
         </b-field>
-      <input v-model="grade" type="text" />
+      <b-input v-model="grade" placeholder="Grate" type="text" />
      <b-field>
           <b-input
             v-model="rate"
@@ -104,7 +105,7 @@
        <b-field>
           <b-input
             v-model="grade"
-            type="number"
+            type="text"
             placeholder="grade"
           >
           </b-input>
@@ -131,9 +132,9 @@
           >
           </b-input>
         </b-field>
-      <input v-model="returnReksa" type="text" />
+      <b-input v-model="returnReksa" type="text" />
     </div>
-    <div v-if="option == 'sbn'">
+    <div v-if="option == 'Sbn'">
       <b-field>
           <b-input v-model="name" placeholder="Name" type="text"></b-input>
         </b-field>
@@ -214,10 +215,10 @@ export default {
           payload = {
             option: "ConventionalInvoice",
             name: this.name,
-            amount: this.amount,
-            tenor: this.tenor,
+            amount: Number(this.amount),
+            tenor: Number(this.tenor),
             grade: this.grade,
-            rate: this.rate,
+            rate: Number(this.rate),
           };
           break;
 
@@ -225,9 +226,9 @@ export default {
           payload = {
             option: "ProductiveInvoice",
             name: this.name,
-            amount: this.amount,
+            amount: Number(this.amount),
             grade: this.grade,
-            rate: this.rate,
+            rate: Number(this.rate),
           };
           break;
 
@@ -235,18 +236,18 @@ export default {
           payload = {
             option: "Reksadana",
             name: this.name,
-            amount: this.amount,
-            return: this.returnReksa,
+            amount: Number(this.amount),
+            return: Number(this.returnReksa),
           };
           break;
 
-        case "sbn":
+        case "Sbn":
           payload = {
-            option: "sbn",
+            option: "Sbn",
             name: this.name,
-            amount: this.amount,
-            tenor: this.tenor,
-            rate: this.rate,
+            amount: Number(this.amount),
+            tenor: Number(this.tenor),
+            rate: Number(this.rate),
             type: this.type,
           };
           break;
