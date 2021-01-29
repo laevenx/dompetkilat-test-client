@@ -64,7 +64,7 @@ export default new Vuex.Store({
           // console.log(data)
           commit('SET_TOKEN', data)
           localStorage.setItem('token', data)
-
+          router.push('/')
         })
         .catch(err => {
           console.log(err.response)
@@ -88,7 +88,7 @@ export default new Vuex.Store({
     fetchReksadana ({ commit }) {
       return server.get('/reksadana')
         .then(({ data }) => {
-          console.log('reksadana', data)
+          // console.log('reksadana', data)
           commit('SET_REKSADANA', data)
         })
         .catch(err => {
@@ -98,7 +98,7 @@ export default new Vuex.Store({
     fetchSbn ({ commit }) {
       return server.get('/sbn')
         .then(({ data }) => {
-          console.log('sbn', data)
+          // console.log('sbn', data)
           commit('SET_SBN', data)
         })
         .catch(err => {
@@ -108,7 +108,7 @@ export default new Vuex.Store({
     fetchFinance ({ commit }) {
       return server.get('/finance')
         .then(({ data }) => {
-          console.log('finance', data)
+          // console.log('finance', data)
           commit('SET_FINANCE', data)
         })
         .catch(err => {
@@ -118,7 +118,7 @@ export default new Vuex.Store({
     fetchConventionalOsf ({ commit }) {
       server.get(`/conventionalosf`)
         .then(({ data }) => {
-          console.log('conventional_osf',data)
+          // console.log('conventional_osf',data)
           commit('SET_CONVENTIONALOSF', data)
         })
         .catch(err => {
@@ -128,7 +128,7 @@ export default new Vuex.Store({
     fetchConventionalInvoice ({ commit }) {
       server.get('/conventionalinvoice')
         .then(({ data }) => {
-          console.log('Conventional_invoice',data)
+          // console.log('Conventional_invoice',data)
           commit('SET_CONVENTIONALINVOICE', data)
          
         })
@@ -139,7 +139,7 @@ export default new Vuex.Store({
     fetchProductiveInvoice ({ commit }) {
         server.get('/productiveinvoice')
           .then(({ data }) => {
-            console.log('productive_invoice',data)
+            // console.log('productive_invoice',data)
             commit('SET_PRODUCTIVEINVOICE', data)
            
           })

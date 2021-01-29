@@ -1,22 +1,52 @@
 <template>
   <div class="column is-10 is-offset-1">
-    <h1 style="text-align: left; font-size: 150%;">List</h1>
+    <h1 style="text-align: left; font-size: 150%">List</h1>
 
     <div class="column is-6 is-offset-3">
-      <input class="effect-1" type="text" placeholder="Search" />
-
+      <input
+        class="effect-1"
+        type="text"
+        placeholder="Search"
+        v-model="search"
+      />
+      
       <select v-model="filter">
         <option
-          v-for="option in options"
-          v-bind:key="option"
+          v-for="(option, i) in options"
+          v-bind:key="'a' + i"
           v-bind:value="option.value"
         >
           {{ option.text }}
         </option>
       </select>
+      
     </div>
-
-    <b-table :data="rows" :columns="columns"></b-table>
+  <b-button size="lg"><a href="/create">Create</a></b-button>
+    <b-table
+      v-if="this.$route.params.type.toLowerCase() == 'conventionalosf'"
+      :data="conventionalOsf"
+      :columns="columns"
+    ></b-table>
+    <b-table
+      v-if="this.$route.params.type.toLowerCase() == 'conventionalinvoice'"
+      :data="loadConventionalinvoice"
+      :columns="columns"
+    ></b-table>
+    <b-table
+      v-if="this.$route.params.type.toLowerCase() == 'productiveinvoice'"
+      :data="loadProductiveinvoice"
+      :columns="columns"
+    ></b-table>
+    <b-table
+      v-if="this.$route.params.type.toLowerCase() == 'reksadana'"
+      :data="loadReksadana"
+      :columns="columns"
+    ></b-table>
+    <b-table
+      v-if="this.$route.params.type.toLowerCase() == 'sbn'"
+      :data="loadSbn"
+      :columns="columns"
+    ></b-table>
   </div>
 </template>
 <script>
@@ -26,8 +56,9 @@ export default {
     if (this.$route.params.type.toLowerCase() == "conventionalosf") {
       return {
         filter: "",
+        search: "",
         options: [
-          { text: "ALL", value: "ALL" },
+          { text: "ALL", value: "" },
           { text: "A", value: "A" },
           { text: "B", value: "B" },
           { text: "B+", value: "B+" },
@@ -64,7 +95,7 @@ export default {
             centered: true,
             numeric: true,
           },
-           {
+          {
             field: "rate",
             label: "Rate",
             centered: true,
@@ -72,12 +103,12 @@ export default {
           },
         ],
       };
-    } 
-     else if (this.$route.params.type.toLowerCase() == "conventionalinvoice") {
+    } else if (this.$route.params.type.toLowerCase() == "conventionalinvoice") {
       return {
         filter: "",
+        search: "",
         options: [
-          { text: "ALL", value: "ALL" },
+          { text: "ALL", value: "" },
           { text: "A", value: "A" },
           { text: "B", value: "B" },
           { text: "B+", value: "B+" },
@@ -114,7 +145,7 @@ export default {
             centered: true,
             numeric: true,
           },
-           {
+          {
             field: "rate",
             label: "Rate",
             centered: true,
@@ -125,13 +156,14 @@ export default {
     } else if (this.$route.params.type.toLowerCase() == "productiveinvoice") {
       return {
         filter: "",
+        search: "",
         options: [
-          { text: "ALL", value: "ALL" },
+          { text: "ALL", value: "" },
           { text: "A", value: "A" },
           { text: "B", value: "B" },
           { text: "B+", value: "B+" },
         ],
-        rows: this.$store.state.productiveinvoice,
+        rows: this.$store.state.productiveInvoice,
         columns: [
           {
             field: "id",
@@ -157,7 +189,7 @@ export default {
             centered: true,
             numeric: true,
           },
-           {
+          {
             field: "rate",
             label: "Rate",
             centered: true,
@@ -165,15 +197,14 @@ export default {
           },
         ],
       };
-    }
-    else if (this.$route.params.type.toLowerCase() == "reksadana") {
+    } else if (this.$route.params.type.toLowerCase() == "reksadana") {
       return {
         filter: "",
+        search: "",
         options: [
-          { text: "ALL", value: "ALL" },
+          { text: "ALL", value: "" },
           { text: "Negative", value: "<0" },
           { text: "Positive", value: ">=0" },
-          
         ],
         rows: this.$store.state.reksadana,
         columns: [
@@ -201,20 +232,18 @@ export default {
             centered: true,
             numeric: true,
           },
-          
         ],
       };
-    }
-    else if (this.$route.params.type.toLowerCase() == "sbn") {
+    } else if (this.$route.params.type.toLowerCase() == "sbn") {
       return {
         filter: "",
+        search: "",
         options: [
-          { text: "ALL", value: "ALL" },
+          { text: "ALL", value: "" },
           { text: "SBR", value: "SBR" },
           { text: "ST", value: "ST" },
-          
         ],
-        rows: this.$store.state.sbn,
+        rows: this.loadSbn,
         columns: [
           {
             field: "id",
@@ -246,18 +275,17 @@ export default {
             centered: true,
             numeric: true,
           },
-           {
+          {
             field: "type",
             label: "Type",
             centered: true,
-            
           },
         ],
       };
-    }
-    else {
+    } else {
       return {
         filter: "",
+        search: "",
         options: [
           { text: "ALL", value: "ALL" },
           { text: "A", value: "A" },
@@ -330,16 +358,148 @@ export default {
     }
   },
   components: {},
+  methods: {},
   computed: {
-    conventionalosf(){
-      return  this.$store.state.conventionalOsf
-    }
+    conventionalosf() {
+      if (this.search.length > 0) {
+        return this.$store.state.conventionalOsf
+          .filter((item) => {
+            return this.search
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          })
+          .filter((item) => {
+            if (this.filter == "") {
+              return true;
+            } else {
+              return item.grade == this.filter;
+            }
+          });
+      } else {
+        return this.$store.state.conventionalOsf.filter((item) => {
+          if (this.filter == "") {
+            return true;
+          } else {
+            return item.grade == this.filter;
+          }
+        });
+      }
+    },
+    loadConventionalinvoice() {
+      if (this.search.length > 0) {
+        return this.$store.state.conventionalInvoice
+          .filter((item) => {
+            return this.search
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          })
+          .filter((item) => {
+            if (this.filter == "") {
+              return true;
+            } else {
+              return item.grade == this.filter;
+            }
+          });
+      } else {
+        return this.$store.state.conventionalInvoice.filter((item) => {
+          if (this.filter == "") {
+            return true;
+          } else {
+            return item.grade == this.filter;
+          }
+        });
+      }
+    },
+    loadProductiveinvoice() {
+      if (this.search.length > 0) {
+        return this.$store.state.productiveInvoice
+          .filter((item) => {
+            return this.search
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          })
+          .filter((item) => {
+            if (this.filter == "") {
+              return true;
+            } else {
+              return item.grade == this.filter;
+            }
+          });
+      } else {
+        return this.$store.state.productiveInvoice.filter((item) => {
+          if (this.filter == "") {
+            return true;
+          } else {
+            return item.grade == this.filter;
+          }
+        });
+      }
+    },
+    loadReksadana() {
+      if (this.search.length > 0) {
+        return this.$store.state.reksadana
+          .filter((item) => {
+            return this.search
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          })
+          .filter((item) => {
+            if (this.filter == "") {
+              return true;
+            } else if (this.filter == "<0") {
+              return item.return < 0;
+            } else {
+              return item.return >= 0;
+            }
+          });
+      } else {
+        return this.$store.state.reksadana.filter((item) => {
+          if (this.filter == "") {
+            return true;
+          } else if (this.filter == "<0") {
+            return item.return < 0;
+          } else {
+            return item.return >= 0;
+          }
+        });
+      }
+    },
+    loadSbn() {
+      if (this.search.length > 0) {
+        return this.$store.state.sbn
+          .filter((item) => {
+            return this.search
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          })
+          .filter((item) => {
+            return this.filter
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.type.toLowerCase().includes(v));
+          });
+      } else {
+        return this.$store.state.sbn.filter((item) => {
+          if (this.filter == "") {
+            return this.$store.state.sbn;
+          } else {
+            return this.filter
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.type.toLowerCase().includes(v));
+          }
+        });
+      }
+    },
   },
   created() {
     if (this.$route.params.type.toLowerCase() == "conventionalosf") {
       this.$store.dispatch("fetchConventionalOsf");
-      
-      console.log(this.rows)
     } else if (this.$route.params.type.toLowerCase() == "conventionalinvoice") {
       this.$store.dispatch("fetchConventionalInvoice");
     } else if (this.$route.params.type.toLowerCase() == "productiveinvoice") {

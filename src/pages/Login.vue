@@ -17,6 +17,7 @@
 </div>
 </template>
 <script>
+import router from '../router'
 
 export default {
     name: "Login",
@@ -36,7 +37,9 @@ export default {
       }
     },
     created(){
-        
+        if(localStorage.getItem('token')){
+          router.push('/')
+        }
     }
 }
 </script>
