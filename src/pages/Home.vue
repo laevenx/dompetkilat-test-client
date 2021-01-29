@@ -47,6 +47,8 @@ export default {
   components: {},
   methods: {
     list(name){
+        name = name.replace(/\s+/g, '');
+        console.log(name)
         router.push(`/list/${name}`)
     }
   },
